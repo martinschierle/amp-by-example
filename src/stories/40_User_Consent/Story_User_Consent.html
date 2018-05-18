@@ -1,0 +1,163 @@
+<!--- {
+  "preview": "default"
+}--->
+<!--
+  ## Introduction
+  This example shows how to integrate amp-consent with amp-story,
+  to provide the user control over data sharing and cookies.
+-->
+<!-- -->
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="canonical" href="/stories/user_consent/story_user_consent/">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <title>AMP Story with User Consent</title>
+
+  <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
+
+  <!-- ## Setup -->
+  <!-- Import the consent component and amp-story in the header. -->
+  <script async custom-element="amp-consent" src="https://cdn.ampproject.org/v0/amp-consent-0.1.js"></script>
+    <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-0.1.js"></script>
+
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <style amp-custom>
+    * {
+      box-sizing: border-box;
+    }
+    amp-story * {
+      font-family: 'Helvitica Nueve', sans-serif;
+      color: white;
+    }
+    amp-story-page {
+      background: white;
+    }
+    amp-story h1 {
+      font-size: 46px;
+    }
+    amp-story h2 {
+      font-size: 36px;
+    }
+    amp-story p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .bottom {
+      align-content: end;
+    }
+    .medium {
+      font-weight: 600;
+    }
+    .last {
+      padding-bottom: 65px;
+    }
+    .center {
+      text-align: center;
+    }
+    .icon {
+      background-image: url(/img/AMP-Brand-White-Icon.svg);
+      background-repeat: no-repeat;
+      background-size: 50px 50px;
+      height: 50px;
+      object-fit: contain;
+      width: 50px;
+    }
+    .byline {
+      letter-spacing: 1.28px;
+      padding-bottom: 58px;
+    }
+  </style>
+</head>
+  <body>
+
+    <!-- See the full example below:
+     <div class="abe-story-preview">
+        <amp-iframe media="(min-width: 650px)"
+            src="http://localhost:8080/stories/user_consent/story_user_consent/preview/embed/"
+            width="440" height="732" sandbox="allow-scripts allow-popups allow-same-origin">
+          <div placeholder></div>
+        </amp-iframe>
+      </div> -->
+    <!-- -->
+
+
+    <amp-story standalone bookend-config-src="<%host%>/json/bookend.json"
+               title="Story With User Consent"
+               publisher="AmpByExample"
+               poster-portrait-src="https://ampbyexample.com/img/story_video_dog_cover.jpg"
+               publisher-logo-src="https://ampbyexample.com/img/amp_logo_pink.svg">
+
+
+      <!-- ## Basic Usage -->
+      <!--
+      The `amp-consent` component allows to specify the required user consent for this page.
+      A CORS endpoints can be specified via the `checkConsentHref`
+      attribute. This endpoint will be queried via a POST request to determine if the
+      consent UI specified for it needs to be shown. The response should look like this:
+      ```json
+      {
+        'promptIfUnknown': boolean (true/false)
+      }
+      ```
+      The response will indicate if the consent needs to be shown or not.
+      If it needs to be shown, a predefined UI will be shown, wqhich can be
+      customized through parameters for title, message and a vendor list to declare.
+      -->
+      <amp-consent id="ABC" layout="nodisplay">
+       <script type='application/json'>
+       {
+         "consents": {
+            "ABC": {
+               "checkConsentHref": "/samples_templates/consent/getConsent",
+               "promptUI": "consentUI"
+             }
+          },
+         "story-consent": {
+             "title": "Header",
+             "message": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+             "vendors": ["Vendor", "Vendor", "Vendor", "Vendor"]
+         }
+       }
+       </script>
+       <amp-story-consent id="consentUI" layout="nodisplay"></amp-story-consent>
+     </amp-consent>
+
+      <amp-story-page id="page-1">
+        <amp-story-grid-layer template="fill">
+          <amp-video autoplay loop
+            width="400"
+            height="750"
+            poster="/img/poster0.png"
+            layout="fill">
+            <source src="/video/p1.mp4" type="video/mp4">
+          </amp-video>
+        </amp-story-grid-layer>
+        <amp-story-grid-layer template="vertical" class="bottom">
+          <div class="icon"></div>
+          <h1 class="bold">Key Highlights of AMP Conf 2018</h1>
+          <p class="byline">By The AMP team</p>
+        </amp-story-grid-layer>
+      </amp-story-page>
+
+      <amp-story-page id="page-2">
+        <amp-story-grid-layer template="fill">
+          <amp-img width="400" height="750" layout="fill" src="/img/overview.jpg"></amp-img>
+        </amp-story-grid-layer>
+        <amp-story-grid-layer template="vertical" class="bottom">
+          <h2 class="bold">Overview</h2>
+          <p>We held the second AMP Conf to celebrate the breadth of the AMP
+            community and announce the latest AMP innovations. We engaged 400+
+            devs in-person over two days and thousands globally on live stream.</p>
+          <p class="last">Here are the key launches by the AMP team and others this year</p>
+        </amp-story-grid-layer>
+      </amp-story-page>
+
+    </amp-story>
+  </body>
+</html>
